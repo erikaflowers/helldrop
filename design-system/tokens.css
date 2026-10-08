@@ -1,20 +1,40 @@
-/* Design System Tokens
- * These variables define your app's visual language.
- * Import this file in your App.css or main styles.
- * Dark-first: :root is dark theme. Set data-theme="light" on <html> for light mode.
+/* Helldrop Design Tokens
+ * Black & yellow Helldivers 2 palette. Dark-only — no light theme.
+ * Import this file in App.css. Never hardcode colors outside this file.
  */
 
 :root {
-  /* Colors - Dark theme (default) */
-  --color-background: #0d1117;
-  --color-surface: #161b22;
-  --color-text-primary: #e6edf3;
-  --color-text-secondary: #8b949e;
-  --color-accent: #58a6ff;
-  --color-accent-hover: #79c0ff;
-  --color-border: #30363d;
+  /* === Backgrounds — near-black hierarchy === */
+  --color-bg-deep: #0B0B0B;
+  --color-bg-base: #121212;
+  --color-bg-raised: #1A1A1A;
+  --color-bg-elevated: #2D2D2D;
 
-  /* Spacing scale */
+  /* === Text hierarchy === */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B3B3B3;
+  --color-text-muted: #808080;
+  --color-text-disabled: #666666;
+
+  /* === Accent — Helldivers yellow === */
+  --color-accent: #FFE710;
+  --color-accent-hover: #FFF838;
+  --color-accent-muted: #E6D00D;
+  --color-accent-dark: #D4B800;
+  --color-accent-darkest: #9D8600;
+
+  /* === Semantic === */
+  --color-success: #4ADE80;
+  --color-warning: #FBBF24;
+  --color-error: #F87171;
+  --color-info: #60A5FA;
+
+  /* === Borders === */
+  --color-border: #404040;
+  --color-border-muted: #333333;
+  --color-border-subtle: #262626;
+
+  /* === Spacing scale === */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -22,7 +42,7 @@
   --space-xl: 32px;
   --space-xxl: 48px;
 
-  /* Typography */
+  /* === Typography === */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
@@ -30,25 +50,30 @@
   --font-size-xl: 1.5rem;
   --font-size-xxl: 2rem;
 
-  /* Borders */
+  /* === Font weights === */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === Borders === */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
+  /* === Shadows (stronger for dark-on-dark) === */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 
-/* Light theme override */
-[data-theme="light"] {
-  --color-background: #ffffff;
-  --color-surface: #f6f8fa;
-  --color-text-primary: #1f2328;
-  --color-text-secondary: #656d76;
-  --color-accent: #0969da;
-  --color-accent-hover: #0550ae;
-  --color-border: #d0d7de;
+  /* === Layout === */
+  --sidebar-width: 240px;
+  --sidebar-width-collapsed: 56px;
+  --header-height: 48px;
+
+  /* === Transitions === */
+  --transition-fast: 0.1s ease;
+  --transition-normal: 0.15s ease;
+  --transition-slow: 0.25s ease;
 }

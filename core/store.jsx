@@ -1,39 +1,30 @@
 /**
  * App State Management
- * Lightweight state management using React Context + useReducer.
- * Use this pattern for state that needs to be shared across components.
+ * Context + useReducer. No side effects, no DOM access.
  */
 
 import { createContext, useContext, useReducer } from 'react';
 
-// Initial state
 const initialState = {
-  theme: 'dark',
+  sidebarCollapsed: false,
 };
 
-// Actions
 const actions = {
-  SET_THEME: 'SET_THEME',
-  TOGGLE_THEME: 'TOGGLE_THEME',
+  TOGGLE_SIDEBAR: 'TOGGLE_SIDEBAR',
 };
 
-// Reducer — pure function, no side effects
 function appReducer(state, action) {
   switch (action.type) {
-    case actions.SET_THEME:
-      return { ...state, theme: action.payload };
-    case actions.TOGGLE_THEME:
-      return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
+    case actions.TOGGLE_SIDEBAR:
+      return { ...state, sidebarCollapsed: !state.sidebarCollapsed };
     default:
       return state;
   }
 }
 
-// Context
 const AppContext = createContext(null);
 const AppDispatchContext = createContext(null);
 
-// Provider component — wrap your app with this
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
@@ -46,7 +37,6 @@ export function AppProvider({ children }) {
   );
 }
 
-// Hooks for consuming state and dispatch
 export function useAppState() {
   const context = useContext(AppContext);
   if (context === null) {

@@ -140,6 +140,18 @@ echo ""
 read -p "  Reset git history? This gives you a clean start. (y/N): " RESET_GIT
 
 if [ "$RESET_GIT" = "y" ] || [ "$RESET_GIT" = "Y" ]; then
+  # Ensure .gitignore exists — dotfiles often get lost when copying repos
+  if [ ! -f .gitignore ]; then
+    cat > .gitignore << 'GITIGNORE'
+node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+*.log
+GITIGNORE
+    echo "  Created .gitignore"
+  fi
   rm -rf .git
   git init
   git add .
@@ -149,14 +161,31 @@ fi
 
 echo ""
 if command -v gh &> /dev/null; then
-  read -p "  Create a GitHub repo for $SLUG? (y/N): " CREATE_REPO
+  # gh exists — check if it's authenticated
+  if gh auth status &> /dev/null; then
+    read -p "  Create a GitHub repo for $SLUG? (y/N): " CREATE_REPO
 
-  if [ "$CREATE_REPO" = "y" ] || [ "$CREATE_REPO" = "Y" ]; then
-    read -p "  Public or private? (public/private): " VISIBILITY
-    VISIBILITY=${VISIBILITY:-private}
-    gh repo create "$SLUG" --"$VISIBILITY" --source=. --push
-    echo "  GitHub repo created and pushed"
+    if [ "$CREATE_REPO" = "y" ] || [ "$CREATE_REPO" = "Y" ]; then
+      read -p "  Public or private? (public/private): " VISIBILITY
+      VISIBILITY=${VISIBILITY:-private}
+      gh repo create "$SLUG" --"$VISIBILITY" --source=. --push
+      echo "  GitHub repo created and pushed"
+    fi
+  else
+    echo "  GitHub CLI is installed but not authenticated."
+    echo "  To connect later, run:  gh auth login"
+    echo "  Then:  gh repo create $SLUG --private --source=. --push"
   fi
+else
+  echo "  GitHub repo creation (optional):"
+  echo "    Install the GitHub CLI:  https://cli.github.com"
+  echo "    Then run:  gh auth login"
+  echo "    Then run:  gh repo create $SLUG --private --source=. --push"
+  echo ""
+  echo "  Or push manually:"
+  echo "    1. Create a repo at https://github.com/new"
+  echo "    2. git remote add origin git@github.com:YOUR_USERNAME/$SLUG.git"
+  echo "    3. git push -u origin main"
 fi
 
 # ── Done ──────────────────────────────────────────────────
@@ -165,7 +194,6 @@ echo ""
 echo "  Your project $PROJECT_NAME is ready."
 echo ""
 echo "  Next steps:"
-echo "    npm start              — Launch your app"
-echo "    claude                 — Open Claude Code (your agent $AGENT_NAME is configured)"
+echo "    bash start.sh          — Launch your app and open Claude Code"
 echo "    Open CLAUDE.md         — Fill in voice, domain, and working style sections"
 echo ""
